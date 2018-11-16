@@ -5,3 +5,30 @@ This repo contains some of the projects I have worked on during my tenure as a m
 Python
 
 R
+
+*Libraries*:
+
+Python
+
+* pandas
+* numpy
+* scikit-learn
+
+
+R
+
+* stats
+* caret
+* glmnet
+* kernlab
+* kknn
+* ggplot2
+* lattice
+* Ecdat
+* dplyr
+* ISLR
+* ROCR
+* outliers
+* randomForest
+* rpart
+* boot
