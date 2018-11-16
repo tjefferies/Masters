@@ -2,9 +2,8 @@ This repo contains some of the projects I have worked on during my tenure as a m
 
 *Languages*:
 
-Python
-
-R
+* Python
+* R
 
 *Libraries*:
 
