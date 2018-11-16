@@ -12,6 +12,7 @@ Python
 * pandas
 * numpy
 * scikit-learn
+* scipy
 
 
 R
