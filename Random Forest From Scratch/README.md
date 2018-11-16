@@ -6,3 +6,7 @@ Implementation:
 *Random forest from scratch to predict if the client will subscribe a term deposit (variable y).*
 
 https://archive.ics.uci.edu/ml/datasets/Bank+Marketing#
+
+Course: CSE 6242 Data and Visual Analytics
+Semester: Sping 2018
+Instructor: Polo Chau
