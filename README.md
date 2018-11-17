@@ -7,28 +7,28 @@ This repo contains some of the projects I have worked on during my tenure as a m
 
 *Libraries*:
 
-Python
+* Python
 
-* pandas
-* numpy
-* scikit-learn
-* scipy
+  * pandas
+  * numpy
+  * scikit-learn
+  * scipy
 
 
-R
+* R
 
-* stats
-* caret
-* glmnet
-* kernlab
-* kknn
-* ggplot2
-* lattice
-* Ecdat
-* dplyr
-* ISLR
-* ROCR
-* outliers
-* randomForest
-* rpart
-* boot
+  * stats
+  * caret
+  * glmnet
+  * kernlab
+  * kknn
+  * ggplot2
+  * lattice
+  * Ecdat
+  * dplyr
+  * ISLR
+  * ROCR
+  * outliers
+  * randomForest
+  * rpart
+  * boot
