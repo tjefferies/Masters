@@ -45,7 +45,7 @@ For example, look at the fallout from the [2008 Housing Crisis:](https://en.wiki
 
 At the peak of the crisis, Nevada had an ***88.4% Default Rate*** for low credit, high risk (FICO 300-670) applicants who had loans originating during 2007 (when a majority of the subprime mortgages were originated).
 
-Or the effects of [Hurricane Katrina](https://en.wikipedia.org/wiki/Hurricane_Katrina) on the Luisiana market:<br>
+Or the effects of [Hurricane Katrina](https://en.wikipedia.org/wiki/Hurricane_Katrina) on the Louisiana market:<br>
 ![Hurricane Katrina](img/Katrina.png)
 
 Where 1 out of every 3 homebuyers the year before had to default.
