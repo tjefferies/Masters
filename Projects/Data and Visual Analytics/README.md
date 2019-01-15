@@ -39,8 +39,9 @@ Our interactive choropleth tool allows users to explore loan default history by 
 * FICO: A number, prepared by third parties, summarizing the borrower’s creditworthiness, which may be indicative of the likelihood that the borrower will timely repay future obligations.
 * LTV: A ratio obtained by dividing the original mortgage loan amount on the note date by the lesser of the mortgaged property’s appraised value on the note date or its purchase price.
 
-<br>For example, look at the fallout from the [2008 Housing Crisis:](https://en.wikipedia.org/wiki/United_States_housing_bubble)
-![Housing Market Armageddon](img/Armageddon.png)
+For example, look at the fallout from the [2008 Housing Crisis:](https://en.wikipedia.org/wiki/United_States_housing_bubble)
+
+<br>![Housing Market Armageddon](img/Armageddon.png)
 
 At the peak of the crisis, Nevada had an ***88.4% Default Rate*** for low credit, high risk (FICO 300-670) applicants who had loans originating during 2007 (when a majority of the subprime mortgages were originated).
 
