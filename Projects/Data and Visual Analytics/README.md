@@ -1,6 +1,6 @@
-Georgia Tech OMSA
-Data and Visual Analytics | CSE 6242
-Fall 2018
+Georgia Tech OMSA<br>
+Data and Visual Analytics | CSE 6242<br>
+Fall 2018<br>
 
 Interactive Tool URL:
 
