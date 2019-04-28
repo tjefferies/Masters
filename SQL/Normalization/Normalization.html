@@ -11776,7 +11776,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Spring-2019-|-CS-6400">Spring 2019 | CS 6400<a class="anchor-link" href="#Spring-2019-|-CS-6400">&#182;</a></h1><p>Author: Travis Jefferies<br>
-Last updated: 04252019</p>
+Last updated: 04272019</p>
 <h2 id="Normalization">Normalization<a class="anchor-link" href="#Normalization">&#182;</a></h2><p>Databases are forever.<br>
 EER Diagrams may go missing over time. <br>
 You never know what will be in a database - it could've been designed by an expert, an idiot, and some compromises might have been made in the design of the database in the name of performance.</p>
@@ -12604,6 +12604,28 @@ If we insert a new <code>RegularUser</code> (say u9@gt.edu) without any <code>In
 </ul>
 <h4 id="Functional-Dependencies">Functional Dependencies<a class="anchor-link" href="#Functional-Dependencies">&#182;</a></h4><p>Let $X$ and $Y$ be sets of attributes in $R$.<br>
 $Y$ is <strong><em>functionally dependent</em></strong> on $X$ in $R$ iff for each $x \in R$ there is precisely one $y \in R$.</p>
+<p>We denote by $F$ the set of functional dependencies (FDs) that are specified on relation schema $R$.</p>
+<ul>
+<li>Typically the FDs are <em>semantically obvious</em></li>
+<li>Numerous other FDs hold in all legal relation instances among sets of attributes that can be derived from and satisfy the dependencies in $F$.<ul>
+<li>These other FDs are referred to as inferred or implied functional dependencies<br>
+Definition: An FD $X \rightarrow Y$ is <strong><em>inferred from</em></strong> or <strong><em>implied by</em></strong> a set of dependencies $F$ specified on $R$ if $X \rightarrow Y$ holds in <em>every</em> legal relation state $r$ of $R$; that is, whenever $r$ satisfies all the dependencies in $F$, $X \rightarrow Y$ also holds in $r$.</li>
+</ul>
+</li>
+</ul>
+<p><em>In real life it is impossible to specify all possible functional dependencies for a given situation.</em></p>
+<p>Thus, it is useful to define a concept called <strong><em>closure</em></strong> $F^{+}$ that includes all possible dependencies that can be inferred from the given set $F$:</p>
+<p>Definition: Formally, the set of all dependencies that include $F$ as well as all dependencies that can be inferred from $F$ is called the <em>closure</em> of $F$, denoted by $F^{+}$.</p>
+<p>See below for an example of closure in action.</p>
+<p>Given:</p>
+<p><img src="p0.png" alt=""></p>
+<p>We can derive the following functional dependencies from the picture above:</p>
+<p>$F=\left\{\,Ssn \rightarrow \left\{Ename,Bdate,Address,Dnumber\right\}, Dnumber \rightarrow \left\{Dname,Dmgr\_ssn\right\}\,\right\}$</p>
+<p>We can <em>infer</em> the following functional dependencies:</p>
+<p>Ssn $\rightarrow$ $\left\{Dname,Dmgr\_ssn\right\}$<br>
+Ssn $\rightarrow$ Ssn<br>
+Dnumber $\rightarrow$ Dname<br></p>
+<p>The <em>closure</em> of $F$ is the set of all functional dependencies that can be inferred from $F$. In this case the closure $F^{+}$ consistes of 3 FDs.</p>
 <p><img src="p1.svg" alt=""></p>
 <p>From the picture above, we know that for every combination of <code>Email</code> and <code>Interest</code> we should have a unique (one and only one value) <code>SinceAge</code>.</p>
 <p><strong>CorrectResultStep1b</strong>:</p>
@@ -12868,12 +12890,14 @@ In a relation, the <strong><em>values of the key are unique</em></strong></p>
 <li>BirthYear -&gt; Salary</li>
 </ul>
 <p>Both t4 and t5 are 3NF and BCNF. There exists no threat of a transitive key in either relation if we select PK(<code>Email</code>). <code>SinceAge</code> is the only attribute in t5, so naturally it's BCNF with PK(<code>BirthYear</code>)</p>
-<h3 id="Computing-with-Functional-Dependencies">Computing with Functional Dependencies<a class="anchor-link" href="#Computing-with-Functional-Dependencies">&#182;</a></h3><h4 id="Armstrong's-Rules">Armstrong's Rules<a class="anchor-link" href="#Armstrong's-Rules">&#182;</a></h4><p>The rules that govern computing with decomposed relations - insures that we do not lose information and still meet all functional dependencies (functional requirements):</p>
+<h3 id="Computing-with-Functional-Dependencies">Computing with Functional Dependencies<a class="anchor-link" href="#Computing-with-Functional-Dependencies">&#182;</a></h3><h4 id="Armstrong's-Rules">Armstrong's Rules<a class="anchor-link" href="#Armstrong's-Rules">&#182;</a></h4><p>Remember from above thatsome functional dependencies are explicitly defined for us $F$ while other functional dependencies are inferred $F^{+}$. This motivates the need for inference rules that can be used to infer new dependencies from a given set of dependencies $F$. Enter <strong><em>Armstrong's Rules</em></strong>!</p>
+<p>The rules that govern computing with decomposed relations - insures that we do not lose information and still meet all functional dependencies (functional requirements):</p>
 <ul>
 <li><strong><em>Reflexivity</em></strong>:
-<em>If Y is part of X, then $X \rightarrow Y$</em><br>
+<em>If Y is part of X ($X \supseteq Y$), then $X \rightarrow Y$</em><br>
+Definition: A set of attributes always determines itself or any of it's subsets.<br>
 Email, Interest $\rightarrow$ Interest<br>
-Interest is on the RHS and the LHS of the arrow, therefore $X \rightarrow Y$<br><br></li>
+Interest is on the RHS and the LHS of the arrow, therefore Interest $\rightarrow$ Interest <br><br></li>
 <li><strong><em>Augmentation</em></strong>:
 <em>If $X \rightarrow Y$, then $WX \rightarrow WY$</em><br>
 If Email $\rightarrow$ BirthYear, then Email, Interest $\rightarrow$ BirthYear, Interest<br><br></li>
@@ -12881,6 +12905,37 @@ If Email $\rightarrow$ BirthYear, then Email, Interest $\rightarrow$ BirthYear, 
 <em>If $X \rightarrow Y$ and $Y \rightarrow Z$, then $X \rightarrow Z$</em><br>
 Email $\rightarrow$ BirthYear and BirthYear$\rightarrow$ Salary, then Email $\rightarrow$ Salary<br><br></li>
 </ul>
+<p>The rules above are sound and complete. By this, we mean that repeated use of the three rules above results in the complete set of all possible functional dependencies or <em>closure</em> $F+$.</p>
+<p>This means that using only Armstrong's Rules, we are able to calculate $F^{+}$ given $F$.</p>
+<p>There are 3 other rules that are corollary to the rules above:</p>
+<ul>
+<li><strong><em>Decomposition or Projective</em></strong>
+$\left\{X \rightarrow YZ\right\} |= X \rightarrow Y$<br></li>
+<li>This rule allows us to remove attributes from the RHS of a dependency.<ul>
+<li>Applying this rule repeatedly can decompose the FD $X \rightarrow \left\{A_{1}, A_{2}, \ldots , A_{n}\right\}$ into the set of dependencies $\left\{X \rightarrow A_{1}, X \rightarrow A_{2}, \ldots , X \rightarrow A_{n}\right\}$</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong><em>Union or Additive</em></strong>
+$\left\{X \rightarrow Y, \: X \rightarrow Z\right\} |= X \rightarrow YZ$<br></li>
+<li>This rule gives us the ability to combine attributes on the RHS of a dependency. It is opposite to the Decomposition rule.<ul>
+<li>Applying this rule allows us the ability to combine $\left\{X \rightarrow A_{1}, X \rightarrow A_{2}, \ldots , X \rightarrow A_{n}\right\}$ into a single dependency $X \rightarrow \left\{A_{1}, A_{2}, \ldots , A_{n}\right\}$ </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong><em>Psuedotransitive</em></strong>
+$\left\{X \rightarrow Y, \: WY \rightarrow Z\right\} |= WX \rightarrow Z$<br></li>
+<li>This rule gives us the ability to replace a set of attributes $Y$ on the LHS of a dependency with another set $X$ that functionally determines $Y$ and can be derived from the Augmentation and Transitivity rules.<ul>
+<li>We first augment the FD $X \rightarrow Y$ with $W$ yielding $WX \rightarrow WY$</li>
+<li>Given $\left\{WX \rightarrow WY\right\},\:\left\{WY \rightarrow Z\right\}$, we can now apply the transitive rule - yielding - $\left\{WX \rightarrow Z\right\}$</li>
+</ul>
+</li>
+</ul>
+<p><strong><em>Caution!</em></strong><br>
+Although $X \rightarrow A$ and $X \rightarrow B$ implies $X \rightarrow AB$ by the Union rule above, $X \rightarrow A$ and $Y \rightarrow B$ does imply that $XY \rightarrow AB$.</p>
+<p>$XY \rightarrow A$ does <strong><em>not</em></strong> neccesarily imply either $X \rightarrow A$ or $Y \rightarrow A$.</p>
 <h5 id="How-to-Guarantee-Lossless-Joins">How to Guarantee Lossless Joins<a class="anchor-link" href="#How-to-Guarantee-Lossless-Joins">&#182;</a></h5><p>How to guarantee a lossless join when decomposing a relation into smaller relations:<br>
 The join field must be a key in at least one of the relations!</p>
 <p>Given:</p>
@@ -13037,6 +13092,75 @@ Transitivity takes care of the functional dependency between Email -&gt; Salary<
 </ol>
 <p>Remember that there do exist relations that are in 3NF that are not in BCNF - in fact BCNF is very, very rare in practice!<br>
 <strong><em>Always strive for 3NF!</em></strong></p>
+<h5 id="Algorithm-15.1:-A-systematic-way-to-determine-additional-functional-dependencies">Algorithm 15.1: A systematic way to determine additional functional dependencies<a class="anchor-link" href="#Algorithm-15.1:-A-systematic-way-to-determine-additional-functional-dependencies">&#182;</a></h5><ol>
+<li>Determine each set of attributes that appears as a LHS of some functional dependency in $F$ and then determine the set of all atributes that are dependent on $X$.</li>
+</ol>
+<p>Definition: For each such set of $X$ attributes we determine the set $X^{+}$ of attributes that are functionally determined by $X$ based on $F$. $X^{+}$ is called the closure of $X$ under $F$<br></p>
+<p>See example below:</p>
+<p>Given:</p>
+<p>Class(Classid, Course#, Instr_name, Credit_hrs, Text, Publisher, Classroom, Capacity)<br></p>
+<p>Let $F$ be the functional dependencies for the relation given above.<br></p>
+<p>$F$:<br></p>
+<p>FD1: Sectionid $\rightarrow$ Course#, Instr_name, Credit_hrs, Text, Publisher, Classroom, Capacity;<br>
+FD2: Course# $\rightarrow$ Credit_hrs;<br>
+FD3: $\left\{\text{Course#, Instr_name}\right\}$ $\rightarrow$ Text, Classroom;<br>
+FD4: Text $\rightarrow$ Publisher;<br>
+FD5: Classroom $\rightarrow$ Capacity;<br></p>
+<p>The semantics in FD1 tells us something obvious: <code>Classid</code> is unique for each Class.<br>
+FD3 tells us that when a certain <code>Instr_name</code> teaches a given <code>Course#</code>, it uses the same <code>Text</code> book and is taught in the same <code>Classroom</code>.<br></p>
+<p>Applying the rules and the definition of closure, we arrive at the following implied functional dependencies:</p>
+<p>1) Transitive property:<br>
+$\left\{X \rightarrow Y, \: Y \rightarrow Z\right\} |= X \rightarrow Z$<br></p>
+<p>$X \rightarrow Sectionid$<br>
+$Y \rightarrow Classid$<br>
+$Z \rightarrow \left\{ \text{Classid, Course#, Instr_name, Credit_hrs, Text, Publisher, Classroom, Capacity} \right\}$<br></p>
+<p>$\left\{\text{Classid}\right\}^{+} = \left\{ \text{Classid, Course#, Instr_name, Credit_hrs, Text, Publisher, Classroom, Capacity} \right\} = \text{Class}$<br></p>
+<p>2) Reflexivity property:<br>
+If Y is part of X ($X \supseteq Y$), then $X \rightarrow Y$<br></p>
+<p>$\left\{\text{Course#}\right\}^{+} = \left\{ \text{Course#, Credit_hrs} \right\} $<br></p>
+<ul>
+<li>Note how the closure of Course# does not include <code>Instr_name</code> on the RHS of the equation, implying that a course may be taught by more then one instructor</li>
+</ul>
+<p>3a) Decomposition property:<br>
+Break $X \rightarrow \left\{A_{1}, A_{2}, \ldots , A_{n}\right\}$ into the set of dependencies $\left\{X \rightarrow A_{1}, X \rightarrow A_{2}, \ldots , X \rightarrow A_{n}\right\}$<br></p>
+<p>Given:</p>
+<p>FD2: Course# $\rightarrow$ Credit_hrs;<br>
+FD3: $\left\{\text{Course#, Instr_name}\right\}$ $\rightarrow$ Text, Classroom;<br>
+FD4: Text $\rightarrow$ Publisher;<br>
+FD5: Classroom $\rightarrow$ Capacity;<br></p>
+<p>We can decompose to:</p>
+<p>$\left\{\text{Course#, Instr_name}\right\}$ $\rightarrow$ Text;<br>
+$\left\{\text{Course#, Instr_name}\right\}$ $\rightarrow$ Classroom;<br></p>
+<p>3b) Transitive property:<br>
+$\left\{X \rightarrow Y, \: Y \rightarrow Z\right\} |= X \rightarrow Z$<br></p>
+<p>$X \rightarrow \left\{\text{Course#, Instr_name}\right\}$<br>
+$Y \rightarrow Text$<br>
+$Z \rightarrow Publisher$<br></p>
+<p>$X \rightarrow \left\{\text{Course#, Instr_name}\right\}$<br>
+$Y \rightarrow Classroom$<br>
+$Z \rightarrow Capacity$<br></p>
+<p>3c1) Reflexivity property:<br>
+If Y is part of X ($X \supseteq Y$), then $X \rightarrow Y$<br></p>
+<p>$X \rightarrow \left\{ \text{Course#, Credit_hrs} \right\} $<br>
+$Y \rightarrow \text{Course#}$<br></p>
+<p>3c2) Transitive property:<br>
+$\left\{X \rightarrow Y, \: Y \rightarrow Z\right\} |= X \rightarrow Z$<br></p>
+<p>$X \rightarrow \left\{\text{Course#, Instr_name}\right\}$<br>
+$Y \rightarrow \text{Course#}$<br>
+$Z \rightarrow \left\{ \text{Course#, Credit_hrs} \right\} $<br></p>
+<p>Putting 1), 2), 3) together, we get</p>
+<p>$\left\{\text{Course#, Instr_name}\right\}$ $\rightarrow$ Course#;<br>
+$\left\{\text{Course#, Instr_name}\right\}$ $\rightarrow$ Credit_hrs;<br>
+$\left\{\text{Course#, Instr_name}\right\}$ $\rightarrow$ Text;<br>
+$\left\{ \text{Course#, Instr_name} \right\} \rightarrow$ Publisher;<br>
+$\left\{\text{Course#, Instr_name}\right\}$ $\rightarrow$ Classroom;<br>
+$\left\{ \text{Course#, Instr_name} \right\} \rightarrow$ Capacity;<br></p>
+<p>Or more compact:</p>
+<p>$\left\{\text{Course#, Instr_name}\right\}^{+} = \left\{ \text{Course#, Credit_hrs, Text, Publisher, Classroom, Capacity} \right\}$<br></p>
+<ul>
+<li>Note how <code>Classid</code> is not included on the RHS - this implies it is not a candidate key!</li>
+<li>Also notice how a course can be taught by different instructors - the combination of (Course#, Instr_name) uniquely identifies a Class.</li>
+</ul>
 
 </div>
 </div>
